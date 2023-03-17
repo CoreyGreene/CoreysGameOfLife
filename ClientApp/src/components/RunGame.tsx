@@ -56,6 +56,12 @@ export default function RunGame() {
     //    renderForecastsTable(forecasts)
     //);
 
+    const json = {
+        size: 20,
+        tiles: "[[1,0,1],[1,1,1],[0,1,1]]"
+    };
+
+
     return (
         <div>
             <h1> step 1, show a grid</h1>
@@ -63,7 +69,9 @@ export default function RunGame() {
             <h1> step 3, save grid and clicks to array</h1>
             <h1> step 4, send array to backend for "logic"</h1>
             <h1> step 5, send array back to front end to view logic</h1>
-            <Grid></Grid>
+
+
+            <Grid size={json.size} gridData={json.tiles}></Grid>
 
         </div>
     );

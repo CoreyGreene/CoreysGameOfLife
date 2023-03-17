@@ -1,18 +1,25 @@
 import React from 'react';
+import { useState } from 'react';
 
 interface TileProps {
-    title: string;
-    color?: string;
-    width?: string;
-    height?: string;
+    onColor?: string;
+    offColor?: string;
+    state?: boolean;
+    width: number;
+    height: number;
 }
 
 export default function Tile(props: TileProps) {
-    const { title, color = 'blue', width = '20px', height = '20px' } = props;
+    const { onColor = 'green', offColor = 'blue', state = false, width, height } = props;
+    const [activeState, setActiveState] = useState<boolean>(state);
+
+    const SetTileActive = () => {
+        setActiveState(true)
+    }
 
     return (
-        <div style={{ backgroundColor: color, width, height }}>
-            <span style={{ display: 'block', width: '100%', height: '100%' }}></span>
+        <div style={{ backgroundColor: activeState ? onColor : offColor, width, height }} onMouseOver={SetTileActive}>
+            <span style={{  width: '100%', height: '100%' }}></span>
         </div>
     )
 }
