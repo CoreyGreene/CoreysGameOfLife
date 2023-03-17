@@ -10,6 +10,8 @@ interface Forecast {
 }
 
 export default function RunGame() {
+
+
     //const [forecasts, setForecasts] = useState<Forecast[]>([]);
     //const [loading, setLoading] = useState<boolean>(true);
 
@@ -55,12 +57,28 @@ export default function RunGame() {
     //) : (
     //    renderForecastsTable(forecasts)
     //);
+    const numberOfRows = 20;
+    const numberOfColumns = 20;
+    const row = new Array(numberOfColumns).fill(0);
+    const grid = new Array(numberOfRows).fill(row);
+
+    const gridString = JSON.stringify(grid);
 
     const json = {
         size: 20,
-        tiles: "[[1,0,1],[1,1,1],[0,1,1]]"
+        tiles: gridString
     };
 
+
+    const [data, setData] = useState(JSON.parse(json.tiles));
+
+    const start = () => {
+        console.log(data)
+    }
+
+    const dataHasBeenUpdated = (updatedData: string) => {
+        setData(updatedData)
+    }
 
     return (
         <div>
@@ -69,9 +87,10 @@ export default function RunGame() {
             <h1> step 3, save grid and clicks to array</h1>
             <h1> step 4, send array to backend for "logic"</h1>
             <h1> step 5, send array back to front end to view logic</h1>
+            <h1>experiment with web sockets, redux, and anything that would improve performance</h1>
 
-
-            <Grid size={json.size} gridData={json.tiles}></Grid>
+            <button onClick={start}>Start</button>
+            <Grid size={json.size} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)}></Grid>
 
         </div>
     );

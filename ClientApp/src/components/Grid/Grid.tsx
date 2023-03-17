@@ -5,12 +5,15 @@ import styled from 'styled-components';
 
 interface GridProps {
     size: number;
-    gridData: string;
+    gridData: any[];
+    updateGridData: CallableFunction
 }
 
 export default function Grid(props: GridProps) {
-    const { size = 20, gridData } = props;
- //   const [data, setData] = useState(gridData);
+    const { size = 20, gridData, updateGridData } = props;
+    const [data, setData] = useState(gridData);
+
+
 
     const GridContainer = styled.div`
     display: grid;
@@ -22,9 +25,19 @@ export default function Grid(props: GridProps) {
     height: ${size * 30}px;
   `;
 
-    const tiles = JSON.parse(gridData).map((row: any[], rowIndex: any) =>
+    const updateTileState = (rowIndex: number, colIndex: number, value: boolean) => {
+        const updatedData = data;
+        updatedData[rowIndex][colIndex] = value ? 1 : 0;
+        setData(updatedData);
+
+        updateGridData(updatedData)
+    };
+
+
+    const tiles = gridData.map((row: any[], rowIndex: any) =>
         row.map((value, colIndex) => (
-            <Tile key={`${rowIndex}-${colIndex}`} state={!!value} width={size} height={size} />
+            <Tile key={`${rowIndex}-${colIndex}`} state={!!value} width={size} height={size}
+                updateTileState={(value: boolean) => updateTileState(rowIndex, colIndex, value)} />
         ))
     );
 

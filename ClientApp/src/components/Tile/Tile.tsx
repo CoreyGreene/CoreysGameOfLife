@@ -7,14 +7,16 @@ interface TileProps {
     state?: boolean;
     width: number;
     height: number;
+    updateTileState: CallableFunction
 }
 
 export default function Tile(props: TileProps) {
-    const { onColor = 'green', offColor = 'blue', state = false, width, height } = props;
+    const { onColor = 'green', offColor = 'blue', state = false, width, height, updateTileState } = props;
     const [activeState, setActiveState] = useState<boolean>(state);
 
     const SetTileActive = () => {
         setActiveState(true)
+        updateTileState(true)
     }
 
     return (
