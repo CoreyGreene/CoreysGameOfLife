@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Grid from '../components/Grid/Grid';
 
 interface Forecast {
     date: string;
@@ -62,6 +63,8 @@ export default function RunGame() {
             <h1> step 3, save grid and clicks to array</h1>
             <h1> step 4, send array to backend for "logic"</h1>
             <h1> step 5, send array back to front end to view logic</h1>
+            <Grid></Grid>
+
         </div>
     );
 }
