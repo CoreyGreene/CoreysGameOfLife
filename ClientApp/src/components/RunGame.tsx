@@ -74,6 +74,38 @@ export default function RunGame() {
 
     const start = () => {
         console.log(data)
+        callNewMethod();
+    }
+    interface MyDataModel {
+        stringData: string;
+    }
+
+    const sendData = async () => {
+        const data2: MyDataModel = {
+            stringData: JSON.stringify(data),
+        };
+
+        const response = await fetch("weatherforecast/NewMethod", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data2)
+        });
+
+        if (response.ok) {
+            console.log("Data sent successfully");
+        } else {
+            console.error(`Failed to send data. Status: ${response.status}`);
+        }
+    };
+
+
+
+    async function callNewMethod() {
+
+        sendData();
+ 
     }
 
     const dataHasBeenUpdated = (updatedData: string) => {

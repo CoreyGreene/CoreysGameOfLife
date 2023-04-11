@@ -1,9 +1,13 @@
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
-
+//builder.Services.AddControllers().AddNewtonsoftJson();
+//serviceCollection.AddControllers()
+//.AddNewtonsoftJson();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,8 +23,13 @@ app.UseRouting();
 
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+   name: "default",
+   pattern: "{controller}/{action=Index}/{id?}");
+
+//app.MapControllerRoute(
+//       name: "NewMethodRoute",
+//       pattern: "newmethod",
+//       defaults: new { controller = "WeatherForecast", action = "NewMethod" });
 
 app.MapFallbackToFile("index.html"); ;
 
