@@ -1,6 +1,13 @@
+using CoreysGameOfLife.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//web socket stuff
+builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
+
+
 
 // Add services to the container.
 
@@ -32,5 +39,7 @@ app.MapControllerRoute(
 //       defaults: new { controller = "WeatherForecast", action = "NewMethod" });
 
 app.MapFallbackToFile("index.html"); ;
+
+app.MapHub<SocketDataTransfer>("/hub");
 
 app.Run();
