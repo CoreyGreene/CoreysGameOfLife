@@ -3,61 +3,8 @@ import { useState, useEffect } from 'react';
 import Grid from '../components/Grid/Grid';
 import * as signalR from '@microsoft/signalr';
 
-interface Forecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
-
 export default function RunGame() {
 
-
-  //const [forecasts, setForecasts] = useState<Forecast[]>([]);
-  //const [loading, setLoading] = useState<boolean>(true);
-
-  // useEffect(() => {
-  //     async function populateWeatherData() {
-  //         const response = await fetch('weatherforecast');
-  //         const data = await response.json();
-  //         setForecasts(data);
-  //         setLoading(false);
-  //     }
-  //     populateWeatherData();
-  // }, []);
-
-  // function renderForecastsTable(forecasts: Forecast[]) {
-  //     return (
-  //         <table className='table table-striped' aria-labelledby='tableLabel'>
-  //             <thead>
-  //                 <tr>
-  //                     <th>Date</th>
-  //                     <th>Temp. (C)</th>
-  //                     <th>Temp. (F)</th>
-  //                     <th>Summary</th>
-  //                 </tr>
-  //             </thead>
-  //             <tbody>
-  //                 {forecasts.map((forecast) => (
-  //                     <tr key={forecast.date}>
-  //                         <td>{forecast.date}</td>
-  //                         <td>{forecast.temperatureC}</td>
-  //                         <td>{forecast.temperatureF}</td>
-  //                         <td>{forecast.summary}</td>
-  //                     </tr>
-  //                 ))}
-  //             </tbody>
-  //         </table>
-  //     );
-  // }
-
-  //const contents = loading ? (
-  //    <p>
-  //        <em>Loading...</em>
-  //    </p>
-  //) : (
-  //    renderForecastsTable(forecasts)
-  //);
   const numberOfRows = 20;
   const numberOfColumns = 20;
   const row = new Array(numberOfColumns).fill(0);
@@ -69,7 +16,6 @@ export default function RunGame() {
     size: 20,
     tiles: gridString
   };
-
 
   const [data, setData] = useState(JSON.parse(json.tiles));
 
@@ -86,7 +32,7 @@ export default function RunGame() {
       stringData: JSON.stringify(data),
     };
 
-    const response = await fetch("weatherforecast/NewMethod", {
+      const response = await fetch("gameOfLife/StartSimulation", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

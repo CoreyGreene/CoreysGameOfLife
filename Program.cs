@@ -1,3 +1,4 @@
+using CoreysGameOfLife.Models;
 using CoreysGameOfLife.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -5,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<GameOfLifeBoard>();
 builder.Services.AddSignalR();
 
 builder.Services.AddControllersWithViews();
