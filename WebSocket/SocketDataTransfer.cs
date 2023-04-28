@@ -6,9 +6,13 @@ namespace CoreysGameOfLife.WebSocket
 {
     public class SocketDataTransfer : Hub
     {
-        public async Task SendMessage(string message)
+        public async Task StartSendingData()
         {
-            await Clients.All.SendAsync("ReceiveMessage", message);
+            for (int i = 1; i <= 100; i++)
+            {
+                await Clients.All.SendAsync("ReceiveData", i);
+                await Task.Delay(50); 
+            }
         }
     }
 }

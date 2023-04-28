@@ -3,18 +3,27 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//web socket stuff
+
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
 
-
-
-// Add services to the container.
-
 builder.Services.AddControllersWithViews();
-//builder.Services.AddControllers().AddNewtonsoftJson();
-//serviceCollection.AddControllers()
-//.AddNewtonsoftJson();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("https://localhost:44409")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
+    });
+});
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,16 +36,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
+app.UseCors();
 
 app.MapControllerRoute(
    name: "default",
    pattern: "{controller}/{action=Index}/{id?}");
-
-//app.MapControllerRoute(
-//       name: "NewMethodRoute",
-//       pattern: "newmethod",
-//       defaults: new { controller = "WeatherForecast", action = "NewMethod" });
 
 app.MapFallbackToFile("index.html"); ;
 
