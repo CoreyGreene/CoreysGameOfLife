@@ -24,7 +24,7 @@ namespace CoreysGameOfLife.WebSocket
 
            // var currentData = _gameOfLifeBoard.RunIteration();
            // await Clients.All.SendAsync("ReceiveData", currentData);
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 1000; i++)
             {
 
                 var currentData = _gameOfLifeBoard.RunIteration();
