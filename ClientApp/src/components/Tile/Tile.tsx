@@ -21,7 +21,7 @@ export default function Tile(props: TileProps) {
 
     return (
         <div style={{ backgroundColor: activeState ? onColor : offColor, width, height }} onMouseOver={SetTileActive}>
-            <span style={{  width: '100%', height: '100%' }}></span>
+            <span style={{ width: '100%', height: '100%' }}></span>
         </div>
     )
 }

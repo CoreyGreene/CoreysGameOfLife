@@ -34,14 +34,17 @@ namespace CoreysGameOfLife.Controllers
             var numRows = boardData.Length;
             var numCols = boardData[0].Length;
 
-            for (int i = 0; i < numRows; i++)
-            {
-                for (int j = 0; j < numCols; j++)
-                {
-                    var val = boardData[i][j];
-                    _gameOfLifeBoard.SetCellState(i, j, val == 0 ? false : true);
-                }
-            }
+            _gameOfLifeBoard.SetBoards(boardData);
+
+
+            //for (int i = 0; i < numRows; i++)
+            //{
+            //    for (int j = 0; j < numCols; j++)
+            //    {
+            //        var val = boardData[i][j];
+            //        _gameOfLifeBoard.SetCellState(i, j, val == 0 ? false : true);
+            //    }
+            //}
 
             //gameOfLifeBoard.PrintGrid();
             return Ok();

@@ -32,7 +32,7 @@ export default function RunGame() {
       stringData: JSON.stringify(data),
     };
 
-      const response = await fetch("gameOfLife/StartSimulation", {
+    const response = await fetch("gameOfLife/StartSimulation", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -56,6 +56,7 @@ export default function RunGame() {
 
     connection.on('ReceiveData', function (data) {
       console.log('ReceiveData: ' + data);
+      setData(data);
     });
 
     await connection.start();

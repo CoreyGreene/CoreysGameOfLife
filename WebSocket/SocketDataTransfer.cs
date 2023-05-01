@@ -16,17 +16,20 @@ namespace CoreysGameOfLife.WebSocket
 
         public async Task StartSendingData()
         {
-            _gameOfLifeBoard.PrintGrid();
+            // _gameOfLifeBoard.PrintGrid();
             // find a way to get data from the board
             // pass data to 'the algorithm'
             // send the result fo the algorith to the front end
             // send the result of the algorith.. back to the algorithm
 
+           // var currentData = _gameOfLifeBoard.RunIteration();
+           // await Clients.All.SendAsync("ReceiveData", currentData);
+            for (int i = 1; i <= 5; i++)
+            {
 
-            for (int i = 1; i <= 100; i++)
-            {      
-                await Clients.All.SendAsync("ReceiveData", i);
-                await Task.Delay(50); 
+                var currentData = _gameOfLifeBoard.RunIteration();
+                await Clients.All.SendAsync("ReceiveData", currentData);
+                await Task.Delay(100); 
             }
         }
     }
