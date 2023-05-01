@@ -5,16 +5,18 @@ import * as signalR from '@microsoft/signalr';
 
 export default function RunGame() {
 
-  const numberOfRows = 20;
-  const numberOfColumns = 20;
+    const theGridSize = 50;
+    const TheTilePixelSize = 10;
+  const numberOfRows = theGridSize;
+  const numberOfColumns = theGridSize;
   const row = new Array(numberOfColumns).fill(0);
   const grid = new Array(numberOfRows).fill(row);
 
   const gridString = JSON.stringify(grid);
 
   const json = {
-    size: 20,
-    tiles: gridString
+      size: theGridSize,
+      tiles: gridString
   };
 
   const [data, setData] = useState(JSON.parse(json.tiles));
@@ -55,7 +57,6 @@ export default function RunGame() {
       .build();
 
     connection.on('ReceiveData', function (data) {
-      console.log('ReceiveData: ' + data);
       setData(data);
     });
 
@@ -82,8 +83,8 @@ export default function RunGame() {
       <h1> step 5, send array back to front end to view logic</h1>
       <h1>experiment with web sockets, redux, and anything that would improve performance</h1>
 
-      <button onClick={start}>Start</button>
-      <Grid size={json.size} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)}></Grid>
+          <button onClick={start}>Start</button>
+          <Grid size={theGridSize} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize}></Grid>
 
     </div>
   );

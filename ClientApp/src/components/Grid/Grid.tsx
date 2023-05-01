@@ -6,13 +6,13 @@ import styled from 'styled-components';
 interface GridProps {
     size: number;
     gridData: any[];
-    updateGridData: CallableFunction
+    updateGridData: CallableFunction;
+    gridTileSize: number
 }
 
 export default function Grid(props: GridProps) {
-    const { size = 20, gridData, updateGridData } = props;
+    const { size, gridData, updateGridData, gridTileSize } = props;
     const [data, setData] = useState(gridData);
-
 
 
     const GridContainer = styled.div`
@@ -21,8 +21,8 @@ export default function Grid(props: GridProps) {
     grid-template-rows: repeat(${size}, 1fr);
     gap: 1px;
     border: 1px solid black;
-    width: ${size * 30}px;
-    height: ${size * 30}px;
+    width: ${gridTileSize * gridTileSize +2}px;
+    height: ${gridTileSize * gridTileSize +2}px;
   `;
 
     const updateTileState = (rowIndex: number, colIndex: number, value: boolean) => {
@@ -36,7 +36,7 @@ export default function Grid(props: GridProps) {
 
     const tiles = gridData.map((row: any[], rowIndex: any) =>
         row.map((value, colIndex) => (
-            <Tile key={`${rowIndex}-${colIndex}`} state={!!value} width={size} height={size}
+            <Tile key={`${rowIndex}-${colIndex}`} state={!!value} width={gridTileSize} height={gridTileSize}
                 updateTileState={(value: boolean) => updateTileState(rowIndex, colIndex, value)} />
         ))
     );

@@ -15,18 +15,18 @@ namespace CoreysGameOfLife.Models
         public void CreateBoard(int width, int height)
         {
             // Init:
-            secondBoard = new BitArray[20];
-            firstBoard = new BitArray[20];
+            secondBoard = new BitArray[width];
+            firstBoard = new BitArray[height];
             for (int y = 0; y < firstBoard.Length; y++)
             {
-                secondBoard[y] = new BitArray(20, false);
-                firstBoard[y] = new BitArray(20, false);
+                secondBoard[y] = new BitArray(width, false);
+                firstBoard[y] = new BitArray(width, false);
             }
 
             for (int y = 0; y < secondBoard.Length; y++)
             {
-                secondBoard[y] = new BitArray(20, false);
-                firstBoard[y] = new BitArray(20, false);
+                secondBoard[y] = new BitArray(width, false);
+                firstBoard[y] = new BitArray(width, false);
             }
 
             this.width = width;
@@ -35,9 +35,9 @@ namespace CoreysGameOfLife.Models
 
         public void GameLoop(BitArray[] current, BitArray[] holder)
         {
-            for (int row = 0; row < 20; row++)
+            for (int row = 0; row < height; row++)
             {
-                for (int column = 0; column < 20; column++)
+                for (int column = 0; column < width; column++)
                 {
                     var numberOfLiveNeighbors = GetNumberOfLiveNeighbors(current, row, column);
 
@@ -193,18 +193,18 @@ namespace CoreysGameOfLife.Models
         }
         public bool IsOnRightEdge(int row, int column)
         {
-            return column == 19;
+            return column == width-1;
         }
         public bool IsOnBottomEdge(int row, int column)
         {
-            return row == 19;
+            return row == height-1;
         }
 
         public void SetBoards(int[][] initialData)
         {
-             for(int i = 0; i < 20; i++)
+             for(int i = 0; i < width; i++)
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < height; j++)
                 {
                     firstBoard[i][j] = initialData[i][j] == 0 ? false : true;
                 }
