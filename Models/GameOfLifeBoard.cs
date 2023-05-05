@@ -12,21 +12,14 @@ namespace CoreysGameOfLife.Models
         private int height;
 
  
-        public void CreateBoard(int width, int height)
+        public void CreateBoard(int height, int width)
         {
-            // Init:
-            secondBoard = new BitArray[width];
             firstBoard = new BitArray[height];
-            for (int y = 0; y < firstBoard.Length; y++)
+            secondBoard = new BitArray[height];
+            for (int i = 0; i < height; i++)
             {
-                secondBoard[y] = new BitArray(width, false);
-                firstBoard[y] = new BitArray(width, false);
-            }
-
-            for (int y = 0; y < secondBoard.Length; y++)
-            {
-                secondBoard[y] = new BitArray(width, false);
-                firstBoard[y] = new BitArray(width, false);
+                firstBoard[i] = new BitArray(width);
+                secondBoard[i] = new BitArray(width);
             }
 
             this.width = width;
@@ -200,9 +193,9 @@ namespace CoreysGameOfLife.Models
 
         public void SetBoards(int[][] initialData)
         {
-             for(int i = 0; i < width; i++)
+             for(int i = 0; i < height; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < width; j++)
                 {
                     firstBoard[i][j] = initialData[i][j] == 0 ? false : true;
                 }

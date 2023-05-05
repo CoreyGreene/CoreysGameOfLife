@@ -4,21 +4,22 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface GridProps {
-    size: number;
+    rows: number;
+    columns: number;
     gridData: any[];
     updateGridData: CallableFunction;
     gridTileSize: number
 }
 
 export default function Grid(props: GridProps) {
-    const { size, gridData, updateGridData, gridTileSize } = props;
+    const { rows, columns, gridData, updateGridData, gridTileSize } = props;
     const [data, setData] = useState(gridData);
 
 
     const GridContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(${size}, 1fr);
-    grid-template-rows: repeat(${size}, 1fr);
+    grid-template-columns: repeat(${columns}, 1fr);
+    grid-template-rows: repeat(${rows}, 1fr);
     gap: 1px;
     border: 1px solid black;
     width: ${gridTileSize * gridTileSize +2}px;
