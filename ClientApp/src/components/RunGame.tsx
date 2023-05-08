@@ -9,12 +9,12 @@ export default function RunGame() {
   }
 
   const TheTilePixelSize = 8;
-  const numberOfRows = 20;
-  const numberOfColumns = 40;
+  const numberOfRows = 50;
+  const numberOfColumns = 100;
   const row = new Array(numberOfColumns).fill(0);
   const grid = new Array(numberOfRows).fill(row);
   const gridString = JSON.stringify(grid);
-    const json = { rows: numberOfRows, columns: numberOfColumns, tiles: gridString };
+  const json = { rows: numberOfRows, columns: numberOfColumns, tiles: gridString };
   const [data, setData] = useState(JSON.parse(json.tiles));
 
   const StartSimulation = async () => {
@@ -35,31 +35,14 @@ export default function RunGame() {
     } else {
       console.error(`Failed to send data. Status: ${response.status}`);
     }
-    };
-
-   // var hasTimeStarted = false;
-   // var count = 0;
-   // var startTime: number
+  };
 
   async function ActivateWebSocketConnection() {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:7199/hub')
       .build();
 
-      connection.on('ReceiveData', function (data) {
-         //if (!hasTimeStarted) {
-         //    hasTimeStarted = true
-         //    count = count + 1
-         //    startTime = performance.now()
-         //} else {
-         //    if (count == 99) {
-         //        var endTime = performance.now()
-         //
-         //        console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
-         //    } else {
-         //        count = count + 1
-         //    }
-         //}
+    connection.on('ReceiveData', function (data) {
       setData(data);
     });
 
@@ -73,8 +56,8 @@ export default function RunGame() {
 
   return (
     <div>
-          <button onClick={() => StartSimulation()}>Start</button>
-          <Grid rows={numberOfRows} columns={numberOfColumns} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize}></Grid>
+      <button onClick={() => StartSimulation()}>Start</button>
+      <Grid rows={numberOfRows} columns={numberOfColumns} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize}></Grid>
     </div>
   );
 }

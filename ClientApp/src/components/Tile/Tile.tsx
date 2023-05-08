@@ -1,27 +1,34 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, memo } from 'react';
 
-interface TileProps {
+type TileProps = {
     onColor?: string;
     offColor?: string;
     state?: boolean;
     width: number;
     height: number;
-    updateTileState: CallableFunction
-}
+    updateTileState: (value: boolean) => void;
+};
 
-export default function Tile(props: TileProps) {
-    const { onColor = 'green', offColor = 'blue', state = false, width, height, updateTileState } = props;
+function Tile(props: TileProps) {
+    const { onColor = 'green', offColor = 'black', state = false, width, height, updateTileState } = props;
+
+    const handleTileClick = () => {
+        setActiveState(!activeState);
+        updateTileState(!activeState);
+    };
+
     const [activeState, setActiveState] = useState<boolean>(state);
 
-    const SetTileActive = () => {
-        setActiveState(true)
-        updateTileState(true)
-    }
-
     return (
-        <div style={{ backgroundColor: activeState ? onColor : offColor, width, height }} onMouseOver={SetTileActive}>
-            <span style={{ width: '100%', height: '100%' }}></span>
-        </div>
-    )
+        <div
+            style={{
+                backgroundColor: activeState ? onColor : offColor,
+                width,
+                height,
+            }}
+            onMouseOver={handleTileClick}
+        ></div>
+    );
 }
+
+export default memo(Tile);
