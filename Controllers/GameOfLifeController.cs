@@ -1,7 +1,7 @@
-﻿using CoreysGameOfLife.Models;
+﻿using System.Text.Json;
+using CoreysGameOfLife.Models;
+using CoreysGameOfLife.WebSocket;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using System.Text.Json;
 
 namespace CoreysGameOfLife.Controllers
 {
@@ -12,10 +12,15 @@ namespace CoreysGameOfLife.Controllers
         private readonly ILogger<GameOfLifeController> _logger;
         private readonly GameOfLifeBoard _gameOfLifeBoard;
 
-        public GameOfLifeController(ILogger<GameOfLifeController> logger, GameOfLifeBoard gameOfLifeBoard)
+
+        public GameOfLifeController(
+            ILogger<GameOfLifeController> logger,
+            GameOfLifeBoard gameOfLifeBoard
+            )
         {
             _logger = logger;
             _gameOfLifeBoard = gameOfLifeBoard;
+
 
         }
 
@@ -33,6 +38,15 @@ namespace CoreysGameOfLife.Controllers
             var numCols = boardData[0].Length;
             _gameOfLifeBoard.CreateBoard(numRows, numCols);
             _gameOfLifeBoard.SetBoards(boardData);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("StopSimulation")]
+        public IActionResult StopSimulation()
+        {
+            SocketDataTransfer.CancelSendingData();
+
             return Ok();
         }
     }

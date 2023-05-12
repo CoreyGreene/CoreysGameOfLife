@@ -1,14 +1,11 @@
 using CoreysGameOfLife.Models;
 using CoreysGameOfLife.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<GameOfLifeBoard>();
 builder.Services.AddSignalR();
-
 builder.Services.AddControllersWithViews();
 
 
@@ -44,8 +41,9 @@ app.MapControllerRoute(
    name: "default",
    pattern: "{controller}/{action=Index}/{id?}");
 
-app.MapFallbackToFile("index.html"); ;
+app.MapFallbackToFile("index.html");
 
 app.MapHub<SocketDataTransfer>("/hub");
+// is there a way to make this a singleton  so any class can get an instance of this
 
 app.Run();

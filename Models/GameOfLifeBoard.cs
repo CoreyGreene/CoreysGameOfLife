@@ -7,11 +7,14 @@ namespace CoreysGameOfLife.Models
         private BitArray[] secondBoard;
         private BitArray[] firstBoard;
         private bool firstBoardHasCurrentData = true;
-        //private byte[] _board;
         private int width;
         private int height;
 
- 
+        public BitArray[] GetCurrentData()
+        {
+            return firstBoardHasCurrentData ? firstBoard : secondBoard;
+        }
+
         public void CreateBoard(int height, int width)
         {
             firstBoard = new BitArray[height];
@@ -34,7 +37,7 @@ namespace CoreysGameOfLife.Models
                 {
                     var numberOfLiveNeighbors = GetNumberOfLiveNeighbors(current, row, column);
 
-                    if(numberOfLiveNeighbors < 2)
+                    if (numberOfLiveNeighbors < 2)
                     {
                         holder[row][column] = false;
                     }
@@ -47,7 +50,7 @@ namespace CoreysGameOfLife.Models
                         else
                         {
                             holder[row][column] = false;
-                        }                     
+                        }
                     }
                     else if (numberOfLiveNeighbors == 3)
                     {
@@ -94,7 +97,7 @@ namespace CoreysGameOfLife.Models
 
         }
 
-        public int GetNumberOfLiveNeighbors(BitArray[] current, int row , int column)
+        public int GetNumberOfLiveNeighbors(BitArray[] current, int row, int column)
         {
             var liveNeighbors = 0;
 
@@ -124,11 +127,11 @@ namespace CoreysGameOfLife.Models
         }
         public int CheckWest(BitArray[] current, int row, int column)
         {
-            return IsOnLeftEdge(row, column) ? 0 : current[row][column-1] ? 1 : 0;
+            return IsOnLeftEdge(row, column) ? 0 : current[row][column - 1] ? 1 : 0;
         }
         public int CheckNorthEast(BitArray[] current, int row, int column)
         {
-            if(IsOnTopEdge(row, column) || IsOnRightEdge(row, column))
+            if (IsOnTopEdge(row, column) || IsOnRightEdge(row, column))
             {
                 return 0;
             }
@@ -184,16 +187,16 @@ namespace CoreysGameOfLife.Models
         }
         public bool IsOnRightEdge(int row, int column)
         {
-            return column == width-1;
+            return column == width - 1;
         }
         public bool IsOnBottomEdge(int row, int column)
         {
-            return row == height-1;
+            return row == height - 1;
         }
 
         public void SetBoards(int[][] initialData)
         {
-             for(int i = 0; i < height; i++)
+            for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {

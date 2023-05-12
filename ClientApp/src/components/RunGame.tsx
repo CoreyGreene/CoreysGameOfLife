@@ -35,7 +35,20 @@ export default function RunGame() {
     } else {
       console.error(`Failed to send data. Status: ${response.status}`);
     }
-  };
+    };
+
+    const StopSimulation = async () => {
+
+
+        const response = await fetch("gameOfLife/StopSimulation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+
+    };
 
   async function ActivateWebSocketConnection() {
     const connection = new signalR.HubConnectionBuilder()
@@ -56,7 +69,8 @@ export default function RunGame() {
 
   return (
     <div>
-      <button onClick={() => StartSimulation()}>Start</button>
+          <button onClick={() => StartSimulation()}>Start</button>
+          <button onClick={() => StopSimulation()}>Stop</button>
       <Grid rows={numberOfRows} columns={numberOfColumns} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize}></Grid>
     </div>
   );

@@ -14,7 +14,7 @@ interface GridProps {
 export default function Grid(props: GridProps) {
     const { rows, columns, gridData, updateGridData, gridTileSize } = props;
     const [data, setData] = useState(gridData);
-
+//maybe useState on data?
 
     const GridContainer = styled.div`
     display: grid;
@@ -26,6 +26,7 @@ export default function Grid(props: GridProps) {
     height: ${gridTileSize * gridTileSize +2}px;
   `;
 
+  // there is a weird bug where grid resets back after user hovers over after applciation has stopped (or when running)
     const updateTileState = (rowIndex: number, colIndex: number, value: boolean) => {
         const updatedData = data;
         updatedData[rowIndex][colIndex] = value ? 1 : 0;

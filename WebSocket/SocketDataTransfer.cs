@@ -1,33 +1,34 @@
 ﻿using CoreysGameOfLife.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace CoreysGameOfLife.WebSocket
 {
     public class SocketDataTransfer : Hub
     {
+        private static SocketDataTransfer _instance;
         private readonly GameOfLifeBoard _gameOfLifeBoard;
+        private CancellationTokenSource _cancellationTokenSource;
         public SocketDataTransfer(GameOfLifeBoard gameOfLifeBoard)
         {
             _gameOfLifeBoard = gameOfLifeBoard;
+            _instance = this;  // Store the instance in the shared variable
+        }
+
+        public static void CancelSendingData()
+        {
+            _instance?._cancellationTokenSource?.Cancel();
         }
 
         public async Task StartSendingData()
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-   
-            for (int i = 1; i <= 1000; i++)
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            while (!_cancellationTokenSource.IsCancellationRequested)
             {
                 var currentData = _gameOfLifeBoard.RunIteration();
                 await Clients.All.SendAsync("ReceiveData", currentData);
-                await Task.Delay(100); 
+                await Task.Delay(100);
             }
-           watch.Stop();
-           var elapsedMs = watch.ElapsedMilliseconds;
-           Trace.WriteLine("the time: "+ elapsedMs);
         }
     }
 }
