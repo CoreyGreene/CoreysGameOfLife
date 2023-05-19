@@ -16,8 +16,10 @@ export default function RunGame() {
   const gridString = JSON.stringify(grid);
   const json = { rows: numberOfRows, columns: numberOfColumns, tiles: gridString };
   const [data, setData] = useState(JSON.parse(json.tiles));
+  const [simulationIsRunning, setSimulationIsRunning] = useState(false);
 
   const StartSimulation = async () => {
+    setSimulationIsRunning(true);
     const modelData: MyDataModel = {
       stringData: JSON.stringify(data),
     };
@@ -35,20 +37,20 @@ export default function RunGame() {
     } else {
       console.error(`Failed to send data. Status: ${response.status}`);
     }
-    };
+  };
 
-    const StopSimulation = async () => {
+  const StopSimulation = async () => {
+    setSimulationIsRunning(false);
+
+    const response = await fetch("gameOfLife/StopSimulation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
 
 
-        const response = await fetch("gameOfLife/StopSimulation", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-
-
-    };
+  };
 
   async function ActivateWebSocketConnection() {
     const connection = new signalR.HubConnectionBuilder()
@@ -69,9 +71,9 @@ export default function RunGame() {
 
   return (
     <div>
-          <button onClick={() => StartSimulation()}>Start</button>
-          <button onClick={() => StopSimulation()}>Stop</button>
-      <Grid rows={numberOfRows} columns={numberOfColumns} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize}></Grid>
-    </div>
+      <button onClick={() => StartSimulation()}>Start</button>
+      <button onClick={() => StopSimulation()}>Stop</button>
+      <Grid rows={numberOfRows} columns={numberOfColumns} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize} simulationIsRunning={simulationIsRunning}></Grid>
+    </div >
   );
 }

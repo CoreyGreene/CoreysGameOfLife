@@ -6,15 +6,18 @@ type TileProps = {
     state?: boolean;
     width: number;
     height: number;
+    simulationIsRunning: boolean;
     updateTileState: (value: boolean) => void;
 };
 
 function Tile(props: TileProps) {
-    const { onColor = 'green', offColor = 'black', state = false, width, height, updateTileState } = props;
+    const { onColor = 'green', offColor = 'black', state = false, width, height, simulationIsRunning, updateTileState } = props;
 
     const handleTileClick = () => {
-        setActiveState(!activeState);
-        updateTileState(!activeState);
+        if (!simulationIsRunning) {
+            setActiveState(!activeState);
+            updateTileState(!activeState);
+        }
     };
 
     const [activeState, setActiveState] = useState<boolean>(state);
