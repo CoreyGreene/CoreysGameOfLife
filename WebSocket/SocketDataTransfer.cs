@@ -5,27 +5,27 @@ namespace CoreysGameOfLife.WebSocket
 {
     public class SocketDataTransfer : Hub
     {
-        private static SocketDataTransfer _instance;
-        private readonly GameOfLifeBoard _gameOfLifeBoard;
-        private CancellationTokenSource _cancellationTokenSource;
+        private static SocketDataTransfer instance;
+        private readonly GameOfLifeBoard gameOfLifeBoard;
+        private CancellationTokenSource cancellationTokenSource;
         public SocketDataTransfer(GameOfLifeBoard gameOfLifeBoard)
         {
-            _gameOfLifeBoard = gameOfLifeBoard;
-            _instance = this;  // Store the instance in the shared variable
+            this.gameOfLifeBoard = gameOfLifeBoard;
+            instance = this;
         }
 
         public static void CancelSendingData()
         {
-            _instance?._cancellationTokenSource?.Cancel();
+            instance?.cancellationTokenSource?.Cancel();
         }
 
         public async Task StartSendingData()
         {
-            _cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource = new CancellationTokenSource();
 
-            while (!_cancellationTokenSource.IsCancellationRequested)
+            while (!cancellationTokenSource.IsCancellationRequested)
             {
-                var currentData = _gameOfLifeBoard.RunIteration();
+                var currentData = gameOfLifeBoard.RunIteration();
                 await Clients.All.SendAsync("ReceiveData", currentData);
                 await Task.Delay(100);
             }
