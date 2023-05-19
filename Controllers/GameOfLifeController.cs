@@ -20,8 +20,6 @@ namespace CoreysGameOfLife.Controllers
         {
             _logger = logger;
             _gameOfLifeBoard = gameOfLifeBoard;
-
-
         }
 
         public class MyDataModel
