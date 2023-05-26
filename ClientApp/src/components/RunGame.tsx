@@ -3,50 +3,74 @@ import { useState, useEffect } from 'react';
 import Grid from '../components/Grid/Grid';
 import * as signalR from '@microsoft/signalr';
 
-  const reducer = (state: { count: number; }, action: { type: any; }) => {
-    switch (action.type) {
-      case 'INCREMENT':
-        return { count: state.count + 1 };
-      case 'DECREMENT':
-        return { count: state.count - 1 };
-      default:
-        throw new Error('Unknown action type');
-    }
-  };
 
+
+interface State {
+  grid: any[][];
+}
+
+interface UpdateAction {
+  type: 'UPDATE';
+  grid: any[][];
+}
+
+interface UpdateCellAction {
+  type: 'UPDATE_CELL';
+  rowIndex: number;
+  colIndex: number;
+  value: any;
+}
+
+type Action = UpdateAction | UpdateCellAction;
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'UPDATE':
+      return {
+        ...state,
+        grid: action.grid,
+      };
+    case 'UPDATE_CELL':
+      return {
+        ...state,
+        grid: state.grid.map((row, rowIndex) =>
+          rowIndex === action.rowIndex
+            ? row.map((cell, colIndex) =>
+                colIndex === action.colIndex ? action.value : cell
+              )
+            : row
+        ),
+      };
+    default:
+      return state;
+  }
+};
 export default function RunGame() {
   interface MyDataModel {
     stringData: string;
   }
 
-  const TheTilePixelSize = 8;
-  const numberOfRows = 50;
-  const numberOfColumns = 100;
-  const row = new Array(numberOfColumns).fill(0);
-  const grid = new Array(numberOfRows).fill(row);
-  const gridString = JSON.stringify(grid);
-  const json = { rows: numberOfRows, columns: numberOfColumns, tiles: gridString };
-  const [data, setData] = useState(JSON.parse(json.tiles));
-  const [simulationIsRunning, setSimulationIsRunning] = useState(false);
+const TheTilePixelSize = 8;
+const numberOfRows = 50;
+const numberOfColumns = 100;
+const row = Array.from({ length: numberOfColumns }, () => 0);
+const grid = Array.from({ length: numberOfRows }, () => [...row]);
+const json = { rows: numberOfRows, columns: numberOfColumns, tiles: JSON.stringify(grid) };
+const [simulationIsRunning, setSimulationIsRunning] = useState(false);
 
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
+const [state, dispatch] = useReducer(reducer, { grid }); // Pass the initial state directly
 
-  const increment = () => {
-    dispatch({ type: 'INCREMENT' });
+// ...
+
+
+    const updateGrid = (newGrid: any[][]) => {
+    dispatch({ type: 'UPDATE', grid: newGrid });
   };
-
-  const decrement = () => {
-    dispatch({ type: 'DECREMENT' });
-  };
-
-  useEffect(() => {
-    console.log('Count changed:', state.count);
-  }, [state.count]);
 
   const StartSimulation = async () => {
     setSimulationIsRunning(true);
     const modelData: MyDataModel = {
-      stringData: JSON.stringify(data),
+      stringData: JSON.stringify(state.grid),
     };
 
     const response = await fetch("gameOfLife/StartSimulation", {
@@ -83,25 +107,18 @@ export default function RunGame() {
       .build();
 
     connection.on('ReceiveData', function (data) {
-      setData(data);
-      decrement();
+      updateGrid(data)
     });
 
     await connection.start();
     await connection.invoke('StartSendingData');
   }
 
-  const dataHasBeenUpdated = (updatedData: string) => {
-    setData(updatedData)
-  }
-
   return (
     <div>
-      <button onClick={increment}>Increment</button>
-      <button onClick={decrement}>Decrement</button>
       <button onClick={() => StartSimulation()}>Start</button>
       <button onClick={() => StopSimulation()}>Stop</button>
-      <Grid dispatch={dispatch} rows={numberOfRows} columns={numberOfColumns} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize} simulationIsRunning={simulationIsRunning}></Grid>
+      <Grid dispatch={dispatch} rows={numberOfRows} columns={numberOfColumns} gridData={state.grid} gridTileSize={TheTilePixelSize} simulationIsRunning={simulationIsRunning}></Grid>
     </div >
   );
 }

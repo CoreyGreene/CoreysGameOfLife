@@ -8,29 +8,22 @@ type TileProps = {
     width: number;
     height: number;
     simulationIsRunning: boolean;
-    updateTileState: (value: boolean) => void;
+    updateTileState: (value: number) => void;
 };
 
 function Tile(props: TileProps) {
-    const { onColor = 'green', offColor = 'black', dispatch, state = false, width, height, simulationIsRunning, updateTileState } = props;
+    const { onColor = 'green', offColor = 'black', state = false, width, height, simulationIsRunning , updateTileState} = props;
 
     const handleTileClick = () => {
         if (!simulationIsRunning) {
             setActiveState(!activeState);
-            updateTileState(!activeState);
-            increment();
+            updateTileState(!activeState ? 1 : 0);
         }
     };
 
     const [activeState, setActiveState] = useState<boolean>(state);
 
- const increment = () => {
-    dispatch({ type: 'INCREMENT' });
-  };
 
-  const decrement = () => {
-    dispatch({ type: 'DECREMENT' });
-  };
     return (
         <div
             style={{

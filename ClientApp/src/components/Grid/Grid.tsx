@@ -7,23 +7,14 @@ interface GridProps {
     dispatch: any;
     rows: number;
     columns: number;
-    gridData: any[];
-    updateGridData: CallableFunction;
+    gridData: any[][];
     gridTileSize: number;
     simulationIsRunning: boolean;
 }
 
 export default function Grid(props: GridProps) {
-    const { dispatch, rows, columns, gridData, updateGridData, gridTileSize, simulationIsRunning } = props;
-    const [data, setData] = useState(gridData);
-    //maybe useState on data?
-  const increment = () => {
-    dispatch({ type: 'INCREMENT' });
-  };
+    const { dispatch, rows, columns, gridData, gridTileSize, simulationIsRunning } = props;
 
-  const decrement = () => {
-    dispatch({ type: 'DECREMENT' });
-  };
     const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(${columns}, 1fr);
@@ -34,29 +25,20 @@ export default function Grid(props: GridProps) {
     height: ${gridTileSize * gridTileSize + 2}px;
   `;
 
-    // there is a weird bug where grid resets back after user hovers over after applciation has stopped (or when running)
-    const updateTileState = (rowIndex: number, colIndex: number, value: boolean) => {
-        const updatedData = data;
-        updatedData[rowIndex][colIndex] = value ? 1 : 0;
-        setData(updatedData);
-
-        updateGridData(updatedData)
-    };
+  const updateCell = (rowIndex: number, colIndex: number, value: any) => {
+    dispatch({ type: 'UPDATE_CELL', rowIndex, colIndex, value });
+  };
 
     const TileMemo = React.memo(Tile);
     const tiles = gridData.map((row: any[], rowIndex: any) =>
         row.map((value, colIndex) => (
             <TileMemo key={`${rowIndex}-${colIndex}`} dispatch={dispatch} state={!!value} width={gridTileSize} height={gridTileSize} simulationIsRunning={simulationIsRunning}
-                updateTileState={(value: boolean) => updateTileState(rowIndex, colIndex, value)} />
+            updateTileState={(value: number) => updateCell(rowIndex, colIndex, value)}/>
         ))
     );
 
     return (
 <div>
-
-
-     <button onClick={increment}>Increment from Child</button>
-      <button onClick={decrement}>Decrement from Child</button>
       <GridContainer>{tiles}</GridContainer>;
 </div>
 
