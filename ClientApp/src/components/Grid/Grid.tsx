@@ -4,6 +4,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 interface GridProps {
+    dispatch: any;
     rows: number;
     columns: number;
     gridData: any[];
@@ -13,10 +14,16 @@ interface GridProps {
 }
 
 export default function Grid(props: GridProps) {
-    const { rows, columns, gridData, updateGridData, gridTileSize, simulationIsRunning } = props;
+    const { dispatch, rows, columns, gridData, updateGridData, gridTileSize, simulationIsRunning } = props;
     const [data, setData] = useState(gridData);
     //maybe useState on data?
+  const increment = () => {
+    dispatch({ type: 'INCREMENT' });
+  };
 
+  const decrement = () => {
+    dispatch({ type: 'DECREMENT' });
+  };
     const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(${columns}, 1fr);
@@ -39,10 +46,20 @@ export default function Grid(props: GridProps) {
     const TileMemo = React.memo(Tile);
     const tiles = gridData.map((row: any[], rowIndex: any) =>
         row.map((value, colIndex) => (
-            <TileMemo key={`${rowIndex}-${colIndex}`} state={!!value} width={gridTileSize} height={gridTileSize} simulationIsRunning={simulationIsRunning}
+            <TileMemo key={`${rowIndex}-${colIndex}`} dispatch={dispatch} state={!!value} width={gridTileSize} height={gridTileSize} simulationIsRunning={simulationIsRunning}
                 updateTileState={(value: boolean) => updateTileState(rowIndex, colIndex, value)} />
         ))
     );
 
-    return <GridContainer>{tiles}</GridContainer>;
+    return (
+<div>
+
+
+     <button onClick={increment}>Increment from Child</button>
+      <button onClick={decrement}>Decrement from Child</button>
+      <GridContainer>{tiles}</GridContainer>;
+</div>
+
+
+    )
 }

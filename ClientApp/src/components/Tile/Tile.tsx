@@ -3,6 +3,7 @@ import React, { useState, memo } from 'react';
 type TileProps = {
     onColor?: string;
     offColor?: string;
+    dispatch: any;
     state?: boolean;
     width: number;
     height: number;
@@ -11,17 +12,25 @@ type TileProps = {
 };
 
 function Tile(props: TileProps) {
-    const { onColor = 'green', offColor = 'black', state = false, width, height, simulationIsRunning, updateTileState } = props;
+    const { onColor = 'green', offColor = 'black', dispatch, state = false, width, height, simulationIsRunning, updateTileState } = props;
 
     const handleTileClick = () => {
         if (!simulationIsRunning) {
             setActiveState(!activeState);
             updateTileState(!activeState);
+            increment();
         }
     };
 
     const [activeState, setActiveState] = useState<boolean>(state);
 
+ const increment = () => {
+    dispatch({ type: 'INCREMENT' });
+  };
+
+  const decrement = () => {
+    dispatch({ type: 'DECREMENT' });
+  };
     return (
         <div
             style={{

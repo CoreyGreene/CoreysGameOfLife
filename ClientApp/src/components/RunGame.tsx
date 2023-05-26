@@ -1,7 +1,18 @@
-import React from 'react';
+import React , { useReducer }from 'react';
 import { useState, useEffect } from 'react';
 import Grid from '../components/Grid/Grid';
 import * as signalR from '@microsoft/signalr';
+
+  const reducer = (state: { count: number; }, action: { type: any; }) => {
+    switch (action.type) {
+      case 'INCREMENT':
+        return { count: state.count + 1 };
+      case 'DECREMENT':
+        return { count: state.count - 1 };
+      default:
+        throw new Error('Unknown action type');
+    }
+  };
 
 export default function RunGame() {
   interface MyDataModel {
@@ -17,6 +28,20 @@ export default function RunGame() {
   const json = { rows: numberOfRows, columns: numberOfColumns, tiles: gridString };
   const [data, setData] = useState(JSON.parse(json.tiles));
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
+
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+  const increment = () => {
+    dispatch({ type: 'INCREMENT' });
+  };
+
+  const decrement = () => {
+    dispatch({ type: 'DECREMENT' });
+  };
+
+  useEffect(() => {
+    console.log('Count changed:', state.count);
+  }, [state.count]);
 
   const StartSimulation = async () => {
     setSimulationIsRunning(true);
@@ -59,6 +84,7 @@ export default function RunGame() {
 
     connection.on('ReceiveData', function (data) {
       setData(data);
+      decrement();
     });
 
     await connection.start();
@@ -71,9 +97,11 @@ export default function RunGame() {
 
   return (
     <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
       <button onClick={() => StartSimulation()}>Start</button>
       <button onClick={() => StopSimulation()}>Stop</button>
-      <Grid rows={numberOfRows} columns={numberOfColumns} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize} simulationIsRunning={simulationIsRunning}></Grid>
+      <Grid dispatch={dispatch} rows={numberOfRows} columns={numberOfColumns} gridData={data} updateGridData={(value: string) => dataHasBeenUpdated(value)} gridTileSize={TheTilePixelSize} simulationIsRunning={simulationIsRunning}></Grid>
     </div >
   );
 }
