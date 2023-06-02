@@ -1,15 +1,15 @@
-import  RunGame  from "./components/RunGame";
-import { Home } from "./components/Home";
+import RunGame from './components/RunGame';
+import { Home } from './components/Home';
 
 const AppRoutes = [
   {
     index: true,
-    element: <Home />
+    element: <Home />,
   },
   {
-      path: '/RunGame',
-      element: <RunGame />
-  }
+    path: '/RunGame',
+    element: <RunGame />,
+  },
 ];
 
 export default AppRoutes;

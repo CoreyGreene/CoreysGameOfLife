@@ -1,21 +1,20 @@
 import React from 'react';
 import Tile from '../Tile/Tile';
-import { useState } from 'react';
 import styled from 'styled-components';
 
 interface GridProps {
-    dispatch: any;
-    rows: number;
-    columns: number;
-    gridData: any[][];
-    gridTileSize: number;
-    simulationIsRunning: boolean;
+  dispatch: any;
+  rows: number;
+  columns: number;
+  gridData: any[][];
+  gridTileSize: number;
+  simulationIsRunning: boolean;
 }
 
 export default function Grid(props: GridProps) {
-    const { dispatch, rows, columns, gridData, gridTileSize, simulationIsRunning } = props;
+  const { dispatch, rows, columns, gridData, gridTileSize, simulationIsRunning } = props;
 
-    const GridContainer = styled.div`
+  const GridContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(${columns}, 1fr);
     grid-template-rows: repeat(${rows}, 1fr);
@@ -29,19 +28,24 @@ export default function Grid(props: GridProps) {
     dispatch({ type: 'UPDATE_CELL', rowIndex, colIndex, value });
   };
 
-    const TileMemo = React.memo(Tile);
-    const tiles = gridData.map((row: any[], rowIndex: any) =>
-        row.map((value, colIndex) => (
-            <TileMemo key={`${rowIndex}-${colIndex}`} dispatch={dispatch} state={!!value} width={gridTileSize} height={gridTileSize} simulationIsRunning={simulationIsRunning}
-            updateTileState={(value: number) => updateCell(rowIndex, colIndex, value)}/>
-        ))
-    );
+  const TileMemo = React.memo(Tile);
+  const tiles = gridData.map((row: any[], rowIndex: any) =>
+    row.map((value, colIndex) => (
+      <TileMemo
+        key={`${rowIndex}-${colIndex}`}
+        dispatch={dispatch}
+        state={!!value}
+        width={gridTileSize}
+        height={gridTileSize}
+        simulationIsRunning={simulationIsRunning}
+        updateTileState={(value: number) => updateCell(rowIndex, colIndex, value)}
+      />
+    ))
+  );
 
-    return (
-<div>
+  return (
+    <div>
       <GridContainer>{tiles}</GridContainer>;
-</div>
-
-
-    )
+    </div>
+  );
 }

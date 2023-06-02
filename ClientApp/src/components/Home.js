@@ -4,10 +4,6 @@ export class Home extends Component {
   static displayName = Home.name;
 
   render() {
-    return (
-      <div>
-        under construction, go on now
-     </div>
-    );
+    return <div>under construction, go on now</div>;
   }
 }
