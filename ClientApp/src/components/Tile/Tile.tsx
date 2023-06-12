@@ -8,7 +8,7 @@ type TileProps = {
   width: number;
   height: number;
   simulationIsRunning: boolean;
-  updateTileState: (value: number) => void;
+  updateTileState: (value: boolean) => void;
 };
 
 function Tile(props: TileProps) {
@@ -25,7 +25,7 @@ function Tile(props: TileProps) {
   const handleTileClick = () => {
     if (!simulationIsRunning) {
       setActiveState(!activeState);
-      updateTileState(!activeState ? 1 : 0);
+      updateTileState(!activeState ? true : false);
     }
   };
 

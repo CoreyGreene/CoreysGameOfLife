@@ -11,6 +11,11 @@ namespace CoreysGameOfLife.WebSocket
             this.gameOfLifeBoard = gameOfLifeBoard;
         }
 
+        public static void ResetIteration()
+        {
+            CancelEventSingleton.GetInstance().ResetIteration();
+        }
+
         public static void CancelSendingData()
         {
             CancelEventSingleton.GetInstance().CancelIteration();
@@ -22,7 +27,7 @@ namespace CoreysGameOfLife.WebSocket
             {
                 var currentData = gameOfLifeBoard.RunIteration();
                 await Clients.All.SendAsync("ReceiveData", currentData);
-                await Task.Delay(100);
+                await Task.Delay(1000);
             }
         }
     }

@@ -31,7 +31,8 @@ namespace CoreysGameOfLife.Controllers
         [Route("StartSimulation")]
         public IActionResult StartSimulation([FromBody] MyDataModel data)
         {
-            int[][] boardData = JsonSerializer.Deserialize<int[][]>(data.stringData);
+            SocketDataTransfer.ResetIteration();
+            bool[][] boardData = JsonSerializer.Deserialize<bool[][]>(data.stringData);
             var numRows = boardData.Length;
             var numCols = boardData[0].Length;
             _gameOfLifeBoard.CreateBoard(numRows, numCols);

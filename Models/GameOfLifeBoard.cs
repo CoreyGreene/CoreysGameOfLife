@@ -194,13 +194,13 @@ namespace CoreysGameOfLife.Models
             return row == height - 1;
         }
 
-        public void SetBoards(int[][] initialData)
+        public void SetBoards(bool[][] initialData)
         {
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    firstBoard[i][j] = initialData[i][j] == 0 ? false : true;
+                    firstBoard[i][j] = initialData[i][j];
                 }
             }
         }

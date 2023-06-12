@@ -1,10 +1,10 @@
 interface State {
-  grid: any[][];
+  grid: boolean[][];
 }
 
 interface UpdateAction {
   type: 'UPDATE';
-  grid: any[][];
+  grid: boolean[][];
 }
 
 interface UpdateCellAction {

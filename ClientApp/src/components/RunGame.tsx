@@ -10,14 +10,14 @@ export default function RunGame() {
   }
 
   const TheTilePixelSize = 8;
-  const numberOfRows = 50;
+  const numberOfRows = 70;
   const numberOfColumns = 100;
-  const row = Array.from({ length: numberOfColumns }, () => 0);
+  const row = Array.from({ length: numberOfColumns }, () => false);
   const grid = Array.from({ length: numberOfRows }, () => [...row]);
   const json = { rows: numberOfRows, columns: numberOfColumns, tiles: JSON.stringify(grid) };
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [state, dispatch] = useReducer(reducer, { grid });
-  var initGrid = grid;
+  const [initGrid, setInitGrid] = useState(grid);
 
   const updateGrid = (newGrid: any[][]) => {
     dispatch({ type: 'UPDATE', grid: newGrid });
@@ -25,6 +25,9 @@ export default function RunGame() {
 
   const StartSimulation = async () => {
     setSimulationIsRunning(true);
+
+    console.log('initGrid grid');
+    console.log(initGrid);
 
     const modelData: MyDataModel = {
       stringData: JSON.stringify(initGrid),
@@ -46,7 +49,8 @@ export default function RunGame() {
   };
 
   const StopSimulation = async () => {
-    initGrid = state.grid;
+    const updatedGrid = [...state.grid];
+    setInitGrid(updatedGrid);
     setSimulationIsRunning(false);
 
     const response = await fetch('gameOfLife/StopSimulation', {
@@ -55,6 +59,11 @@ export default function RunGame() {
         'Content-Type': 'application/json',
       },
     });
+    if (response.ok) {
+      console.log('response');
+      console.log('initGrid grid');
+      console.log(initGrid);
+    }
   };
 
   async function ActivateWebSocketConnection() {
@@ -68,6 +77,12 @@ export default function RunGame() {
     await connection.invoke('StartSendingData');
   }
 
+  const updateCell = (rowIndex: number, colIndex: number, value: any) => {
+    const updatedGrid = [...initGrid];
+    updatedGrid[rowIndex][colIndex] = value;
+    setInitGrid(updatedGrid);
+  };
+
   return (
     <div>
       <button onClick={() => StartSimulation()}>Start</button>
@@ -79,7 +94,8 @@ export default function RunGame() {
         initGridData={initGrid}
         gridData={state.grid}
         gridTileSize={TheTilePixelSize}
-        simulationIsRunning={simulationIsRunning}></Grid>
+        simulationIsRunning={simulationIsRunning}
+        updateCelltest={updateCell}></Grid>
     </div>
   );
 }
