@@ -6,7 +6,6 @@ interface GridProps {
   dispatch: any;
   rows: number;
   columns: number;
-  initGridData: any[][];
   gridData: any[][];
   gridTileSize: number;
   simulationIsRunning: boolean;
@@ -14,11 +13,11 @@ interface GridProps {
 }
 
 export default function Grid(props: GridProps) {
-  const { dispatch, rows, columns, initGridData, gridData, gridTileSize, simulationIsRunning, updateCelltest } = props;
-
+  const { dispatch, rows, columns, gridData, gridTileSize, simulationIsRunning, updateCelltest } = props;
+  var tempGrid = [...gridData];
   const updateCell = (rowIndex: number, colIndex: number, value: any) => {
-    initGridData[rowIndex][colIndex] = value;
-    updateCelltest(initGridData);
+    tempGrid[rowIndex][colIndex] = value;
+    updateCelltest(tempGrid);
   };
 
   const TileMemo = React.memo(Tile);

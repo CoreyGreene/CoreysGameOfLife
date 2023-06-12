@@ -18,7 +18,6 @@ export default function RunGame() {
   const json = { rows: numberOfRows, columns: numberOfColumns, tiles: JSON.stringify(grid) };
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [state, dispatch] = useReducer(reducer, { grid });
-  const [initGrid, setInitGrid] = useState(grid);
 
   const updateGrid = (newGrid: any[][]) => {
     dispatch({ type: 'UPDATE', grid: newGrid });
@@ -28,7 +27,7 @@ export default function RunGame() {
     setSimulationIsRunning(true);
 
     const modelData: MyDataModel = {
-      stringData: JSON.stringify(initGrid),
+      stringData: JSON.stringify(state.grid),
     };
 
     const response = await fetch('gameOfLife/StartSimulation', {
@@ -47,8 +46,6 @@ export default function RunGame() {
   };
 
   const StopSimulation = async () => {
-    const updatedGrid = [...state.grid];
-    setInitGrid(updatedGrid);
     setSimulationIsRunning(false);
 
     const response = await fetch('gameOfLife/StopSimulation', {
@@ -75,7 +72,6 @@ export default function RunGame() {
   const updateCell = debounce((newGrid: any) => {
     const updatedGrid = [...newGrid];
     updateGrid(updatedGrid);
-    setInitGrid(updatedGrid);
   }, 300);
 
   return (
@@ -86,7 +82,6 @@ export default function RunGame() {
         dispatch={dispatch}
         rows={numberOfRows}
         columns={numberOfColumns}
-        initGridData={initGrid}
         gridData={state.grid}
         gridTileSize={TheTilePixelSize}
         simulationIsRunning={simulationIsRunning}
