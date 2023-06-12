@@ -1,6 +1,6 @@
 import React from 'react';
 import Tile from '../Tile/Tile';
-import styled from 'styled-components';
+import GridContainer from './GridContainer';
 
 interface GridProps {
   dispatch: any;
@@ -13,16 +13,6 @@ interface GridProps {
 
 export default function Grid(props: GridProps) {
   const { dispatch, rows, columns, gridData, gridTileSize, simulationIsRunning } = props;
-
-  const GridContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(${columns}, 1fr);
-    grid-template-rows: repeat(${rows}, 1fr);
-    gap: 0px;
-    border: 1px solid black;
-    width: ${gridTileSize * gridTileSize + 2}px;
-    height: ${gridTileSize * gridTileSize + 2}px;
-  `;
 
   const updateCell = (rowIndex: number, colIndex: number, value: any) => {
     dispatch({ type: 'UPDATE_CELL', rowIndex, colIndex, value });
@@ -45,7 +35,10 @@ export default function Grid(props: GridProps) {
 
   return (
     <div>
-      <GridContainer>{tiles}</GridContainer>;
+      <GridContainer columns={columns} rows={rows} gridTileSize={gridTileSize}>
+        {tiles}
+      </GridContainer>
+      ;
     </div>
   );
 }

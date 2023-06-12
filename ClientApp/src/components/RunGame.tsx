@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { useState } from 'react';
 import Grid from '../components/Grid/Grid';
-import { reducer } from './GridReducer';
+import { reducer } from './Grid/GridReducer';
 import * as signalR from '@microsoft/signalr';
 
 export default function RunGame() {
@@ -16,7 +16,6 @@ export default function RunGame() {
   const grid = Array.from({ length: numberOfRows }, () => [...row]);
   const json = { rows: numberOfRows, columns: numberOfColumns, tiles: JSON.stringify(grid) };
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
-
   const [state, dispatch] = useReducer(reducer, { grid });
 
   const updateGrid = (newGrid: any[][]) => {
