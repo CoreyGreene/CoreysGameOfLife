@@ -23,15 +23,6 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         grid: action.grid,
       };
-    case 'UPDATE_CELL':
-      return {
-        ...state,
-        grid: state.grid.map((row, rowIndex) =>
-          rowIndex === action.rowIndex
-            ? row.map((cell, colIndex) => (colIndex === action.colIndex ? action.value : cell))
-            : row
-        ),
-      };
     default:
       return state;
   }
