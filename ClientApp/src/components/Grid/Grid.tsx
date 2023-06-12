@@ -1,6 +1,7 @@
 import React from 'react';
 import Tile from '../Tile/Tile';
 import GridContainer from './GridContainer';
+import { debounce } from 'lodash';
 
 interface GridProps {
   dispatch: any;
@@ -9,16 +10,20 @@ interface GridProps {
   gridData: any[][];
   gridTileSize: number;
   simulationIsRunning: boolean;
-  updateCelltest: (array: any) => void;
 }
 
 export default function Grid(props: GridProps) {
-  const { dispatch, rows, columns, gridData, gridTileSize, simulationIsRunning, updateCelltest } = props;
+  const { dispatch, rows, columns, gridData, gridTileSize, simulationIsRunning } = props;
   var tempGrid = [...gridData];
+
   const updateCell = (rowIndex: number, colIndex: number, value: any) => {
     tempGrid[rowIndex][colIndex] = value;
-    updateCelltest(tempGrid);
+    updateGrid(tempGrid);
   };
+
+  const updateGrid = debounce((newGrid: any[][]) => {
+    dispatch({ type: 'UPDATE', grid: newGrid });
+  }, 300);
 
   const TileMemo = React.memo(Tile);
   const tiles = gridData.map((row: any[], rowIndex: any) =>

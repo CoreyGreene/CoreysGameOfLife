@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 import { useState } from 'react';
 import Grid from '../components/Grid/Grid';
 import { reducer } from './Grid/GridReducer';
-import { debounce } from 'lodash';
 import * as signalR from '@microsoft/signalr';
 
 export default function RunGame() {
@@ -15,7 +14,6 @@ export default function RunGame() {
   const numberOfColumns = 100;
   const row = Array.from({ length: numberOfColumns }, () => false);
   const grid = Array.from({ length: numberOfRows }, () => [...row]);
-  const json = { rows: numberOfRows, columns: numberOfColumns, tiles: JSON.stringify(grid) };
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [state, dispatch] = useReducer(reducer, { grid });
 
@@ -69,11 +67,6 @@ export default function RunGame() {
     await connection.invoke('StartSendingData');
   }
 
-  const updateCell = debounce((newGrid: any) => {
-    const updatedGrid = [...newGrid];
-    updateGrid(updatedGrid);
-  }, 300);
-
   return (
     <div>
       <button onClick={() => StartSimulation()}>Start</button>
@@ -84,8 +77,7 @@ export default function RunGame() {
         columns={numberOfColumns}
         gridData={state.grid}
         gridTileSize={TheTilePixelSize}
-        simulationIsRunning={simulationIsRunning}
-        updateCelltest={updateCell}></Grid>
+        simulationIsRunning={simulationIsRunning}></Grid>
     </div>
   );
 }
