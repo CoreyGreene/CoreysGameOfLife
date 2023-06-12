@@ -37,6 +37,7 @@ namespace CoreysGameOfLife.Controllers
             var numCols = boardData[0].Length;
             _gameOfLifeBoard.CreateBoard(numRows, numCols);
             _gameOfLifeBoard.SetBoards(boardData);
+            _gameOfLifeBoard.firstBoardHasCurrentData = true;
             return Ok();
         }
 

@@ -10,15 +10,15 @@ interface GridProps {
   gridData: any[][];
   gridTileSize: number;
   simulationIsRunning: boolean;
-  updateCelltest: (rowIndex: number, colIndex: number, value: boolean) => void;
+  updateCelltest: (array: any) => void;
 }
 
 export default function Grid(props: GridProps) {
   const { dispatch, rows, columns, initGridData, gridData, gridTileSize, simulationIsRunning, updateCelltest } = props;
 
   const updateCell = (rowIndex: number, colIndex: number, value: any) => {
-    //initGridData[rowIndex][colIndex] = value;
-    updateCelltest(rowIndex, colIndex, value);
+    initGridData[rowIndex][colIndex] = value;
+    updateCelltest(initGridData);
   };
 
   const TileMemo = React.memo(Tile);

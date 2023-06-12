@@ -6,7 +6,7 @@ namespace CoreysGameOfLife.Models
     {
         private BitArray[] secondBoard;
         private BitArray[] firstBoard;
-        private bool firstBoardHasCurrentData = true;
+        public bool firstBoardHasCurrentData = true;
         private int width;
         private int height;
 

@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import { useState } from 'react';
 import Grid from '../components/Grid/Grid';
 import { reducer } from './Grid/GridReducer';
+import { debounce } from 'lodash';
 import * as signalR from '@microsoft/signalr';
 
 export default function RunGame() {
@@ -10,7 +11,7 @@ export default function RunGame() {
   }
 
   const TheTilePixelSize = 8;
-  const numberOfRows = 70;
+  const numberOfRows = 80;
   const numberOfColumns = 100;
   const row = Array.from({ length: numberOfColumns }, () => false);
   const grid = Array.from({ length: numberOfRows }, () => [...row]);
@@ -25,9 +26,6 @@ export default function RunGame() {
 
   const StartSimulation = async () => {
     setSimulationIsRunning(true);
-
-    console.log('initGrid grid');
-    console.log(initGrid);
 
     const modelData: MyDataModel = {
       stringData: JSON.stringify(initGrid),
@@ -60,9 +58,6 @@ export default function RunGame() {
       },
     });
     if (response.ok) {
-      console.log('response');
-      console.log('initGrid grid');
-      console.log(initGrid);
     }
   };
 
@@ -77,11 +72,11 @@ export default function RunGame() {
     await connection.invoke('StartSendingData');
   }
 
-  const updateCell = (rowIndex: number, colIndex: number, value: any) => {
-    const updatedGrid = [...initGrid];
-    updatedGrid[rowIndex][colIndex] = value;
+  const updateCell = debounce((newGrid: any) => {
+    const updatedGrid = [...newGrid];
+    updateGrid(updatedGrid);
     setInitGrid(updatedGrid);
-  };
+  }, 300);
 
   return (
     <div>
