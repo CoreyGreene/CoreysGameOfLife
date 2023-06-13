@@ -23,7 +23,7 @@ export default function Grid(props: GridProps) {
 
   const updateGrid = debounce((newGrid: any[][]) => {
     dispatch({ type: 'UPDATE', grid: newGrid });
-  }, 300);
+  }, 250);
 
   const TileMemo = React.memo(Tile);
   const tiles = gridData.map((row: any[], rowIndex: any) =>
@@ -45,7 +45,6 @@ export default function Grid(props: GridProps) {
       <GridContainer columns={columns} rows={rows} gridTileSize={gridTileSize}>
         {tiles}
       </GridContainer>
-      ;
     </div>
   );
 }

@@ -10,8 +10,8 @@ export default function RunGame() {
   }
 
   const TheTilePixelSize = 8;
-  const numberOfRows = 80;
-  const numberOfColumns = 100;
+  const numberOfRows = 60;
+  const numberOfColumns = 80;
   const row = Array.from({ length: numberOfColumns }, () => false);
   const grid = Array.from({ length: numberOfRows }, () => [...row]);
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
@@ -41,7 +41,12 @@ export default function RunGame() {
     } else {
       console.error(`Failed to send data. Status: ${response.status}`);
     }
-  };
+    };
+
+    const ClearSimulation = () => {
+        StopSimulation();
+        updateGrid(grid);
+    }
 
   const StopSimulation = async () => {
     setSimulationIsRunning(false);
@@ -71,6 +76,7 @@ export default function RunGame() {
     <div>
       <button onClick={() => StartSimulation()}>Start</button>
       <button onClick={() => StopSimulation()}>Stop</button>
+      <button onClick={() => ClearSimulation()}>Clear</button>
       <Grid
         dispatch={dispatch}
         rows={numberOfRows}

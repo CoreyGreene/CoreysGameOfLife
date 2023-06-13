@@ -27,7 +27,7 @@ namespace CoreysGameOfLife.WebSocket
             {
                 var currentData = gameOfLifeBoard.RunIteration();
                 await Clients.All.SendAsync("ReceiveData", currentData);
-                await Task.Delay(100);
+                await Task.Delay(250);
             }
         }
     }
