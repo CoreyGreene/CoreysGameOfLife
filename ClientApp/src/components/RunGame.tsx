@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { useState } from 'react';
 import Grid from '../components/Grid/Grid';
 import { reducer } from './Grid/GridReducer';
@@ -10,13 +10,15 @@ export default function RunGame() {
   }
 
   const TheTilePixelSize = 8;
-  const numberOfRows = 60;
-  const numberOfColumns = 80;
+  const [numberOfColumns, setNumberOfColumns] = useState<number>(80);
+  const [numberOfRows, setNumberOfRows] = useState<number>(60);
   const row = Array.from({ length: numberOfColumns }, () => false);
   const grid = Array.from({ length: numberOfRows }, () => [...row]);
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
   const [state, dispatch] = useReducer(reducer, { grid });
-
+  useEffect(() => {
+    ClearSimulation();
+  }, [numberOfColumns, numberOfRows]);
   const updateGrid = (newGrid: any[][]) => {
     dispatch({ type: 'UPDATE', grid: newGrid });
   };
@@ -41,12 +43,12 @@ export default function RunGame() {
     } else {
       console.error(`Failed to send data. Status: ${response.status}`);
     }
-    };
+  };
 
-    const ClearSimulation = () => {
-        StopSimulation();
-        updateGrid(grid);
-    }
+  const ClearSimulation = () => {
+    StopSimulation();
+    updateGrid(grid);
+  };
 
   const StopSimulation = async () => {
     setSimulationIsRunning(false);
@@ -72,8 +74,22 @@ export default function RunGame() {
     await connection.invoke('StartSendingData');
   }
 
+  const storeNumberOfRows = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputNumber = parseInt(event.target.value, 10);
+    setNumberOfRows(inputNumber);
+  };
+
+  const storeNumberOfColumns = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputNumber = parseInt(event.target.value, 10);
+    setNumberOfColumns(inputNumber);
+  };
+
   return (
     <div>
+      <h2>numberof rows</h2>
+      <input type="number" onChange={storeNumberOfRows} disabled={simulationIsRunning} />
+      <h2>numberof columns</h2>
+      <input type="number" onChange={storeNumberOfColumns} disabled={simulationIsRunning} />
       <button onClick={() => StartSimulation()}>Start</button>
       <button onClick={() => StopSimulation()}>Stop</button>
       <button onClick={() => ClearSimulation()}>Clear</button>
