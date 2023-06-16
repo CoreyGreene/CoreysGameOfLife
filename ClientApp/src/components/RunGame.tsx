@@ -87,9 +87,9 @@ export default function RunGame() {
   return (
     <div>
       <h2>numberof rows</h2>
-      <input type="number" onChange={storeNumberOfRows} disabled={simulationIsRunning} />
+      <input type="number" value={numberOfRows} onChange={storeNumberOfRows} disabled={simulationIsRunning} />
       <h2>numberof columns</h2>
-      <input type="number" onChange={storeNumberOfColumns} disabled={simulationIsRunning} />
+      <input type="number" value={numberOfColumns} onChange={storeNumberOfColumns} disabled={simulationIsRunning} />
       <button onClick={() => StartSimulation()}>Start</button>
       <button onClick={() => StopSimulation()}>Stop</button>
       <button onClick={() => ClearSimulation()}>Clear</button>
