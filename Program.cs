@@ -8,7 +8,6 @@ builder.Services.AddSingleton<GameOfLifeBoard>();
 builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews();
 
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
@@ -19,9 +18,6 @@ builder.Services.AddCors(options =>
                .AllowCredentials();
     });
 });
-
-
-
 
 var app = builder.Build();
 
@@ -42,8 +38,6 @@ app.MapControllerRoute(
    pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
-
 app.MapHub<SocketDataTransfer>("/hub");
-// is there a way to make this a singleton  so any class can get an instance of this
 
 app.Run();

@@ -10,7 +10,7 @@ namespace CoreysGameOfLife.Controllers
     public class GameOfLifeController : ControllerBase
     {
         private readonly ILogger<GameOfLifeController> _logger;
-        private readonly GameOfLifeBoard _gameOfLifeBoard;
+        private readonly GameOfLifeBoard gameOfLifeBoard;
 
 
         public GameOfLifeController(
@@ -19,7 +19,7 @@ namespace CoreysGameOfLife.Controllers
             )
         {
             _logger = logger;
-            _gameOfLifeBoard = gameOfLifeBoard;
+            this.gameOfLifeBoard = gameOfLifeBoard;
         }
 
         public class MyDataModel
@@ -35,9 +35,9 @@ namespace CoreysGameOfLife.Controllers
             bool[][] boardData = JsonSerializer.Deserialize<bool[][]>(data.stringData);
             var numRows = boardData.Length;
             var numCols = boardData[0].Length;
-            _gameOfLifeBoard.CreateBoard(numRows, numCols);
-            _gameOfLifeBoard.SetBoards(boardData);
-            _gameOfLifeBoard.firstBoardHasCurrentData = true;
+            gameOfLifeBoard.CreateBoard(numRows, numCols);
+            gameOfLifeBoard.SetBoards(boardData);
+            gameOfLifeBoard.firstBoardHasCurrentData = true;
             return Ok();
         }
 
