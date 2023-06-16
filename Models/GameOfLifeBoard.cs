@@ -4,10 +4,11 @@ namespace CoreysGameOfLife.Models
 {
     public class GameOfLifeBoard
     {
-        private BitArray[] secondBoard;
-        private BitArray[] firstBoard;
+        private BitArray[] secondBoard = new BitArray[1];
+        private BitArray[] firstBoard = new BitArray[1];
         public bool firstBoardHasCurrentData = true;
         private int width;
+
         private int height;
 
         public BitArray[] GetCurrentData()
