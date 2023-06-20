@@ -1,6 +1,8 @@
 import React, { useReducer, useEffect } from 'react';
 import { useState } from 'react';
 import Grid from '../components/Grid/Grid';
+import Button from './Button/Button';
+import SuperAwesomeSlider from './SuperAwesomeSlider/SuperAwesomeSlider';
 import { reducer } from './Grid/GridReducer';
 import * as signalR from '@microsoft/signalr';
 
@@ -74,25 +76,26 @@ export default function RunGame() {
     await connection.invoke('StartSendingData');
   }
 
-  const storeNumberOfRows = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputNumber = parseInt(event.target.value, 10);
-    setNumberOfRows(inputNumber);
-  };
-
-  const storeNumberOfColumns = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputNumber = parseInt(event.target.value, 10);
-    setNumberOfColumns(inputNumber);
-  };
-
   return (
     <div>
       <h2>numberof rows</h2>
-      <input type="number" value={numberOfRows} onChange={storeNumberOfRows} disabled={simulationIsRunning} />
-      <h2>numberof columns</h2>
-      <input type="number" value={numberOfColumns} onChange={storeNumberOfColumns} disabled={simulationIsRunning} />
-      <button onClick={() => StartSimulation()}>Start</button>
-      <button onClick={() => StopSimulation()}>Stop</button>
-      <button onClick={() => ClearSimulation()}>Clear</button>
+
+      <SuperAwesomeSlider
+        initialValue={numberOfRows}
+        onSlide={setNumberOfRows}
+        isDisabled={simulationIsRunning}
+        text={'number of columns'}></SuperAwesomeSlider>
+
+      <SuperAwesomeSlider
+        initialValue={numberOfColumns}
+        onSlide={setNumberOfColumns}
+        isDisabled={simulationIsRunning}
+        text={'number of columns'}></SuperAwesomeSlider>
+
+      <Button text="Run" onClick={StartSimulation}></Button>
+      <Button text="Stop" onClick={StopSimulation}></Button>
+      <Button text="Clear" onClick={ClearSimulation}></Button>
+
       <Grid
         dispatch={dispatch}
         rows={numberOfRows}
