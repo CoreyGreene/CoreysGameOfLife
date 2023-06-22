@@ -9,7 +9,9 @@ export default function Button(props: ButtonProps) {
   const { text, onClick } = props;
   return (
     <>
-      <button onClick={onClick}>{text}</button>
+      <button className="hxBtn" onClick={onClick}>
+        {text}
+      </button>
     </>
   );
 }
