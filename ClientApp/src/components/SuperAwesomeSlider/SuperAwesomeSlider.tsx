@@ -2,7 +2,7 @@ import React from 'react';
 
 interface SuperAwesomeSliderProps {
   text: string;
-  onSlide: (value: number) => void;
+  onSlideCallback: (value: number) => void;
   min?: number;
   max?: number;
   initialValue: number;
@@ -10,11 +10,11 @@ interface SuperAwesomeSliderProps {
 }
 
 export default function SuperAwesomeSlider(props: SuperAwesomeSliderProps) {
-  const { text, onSlide, min = 0, max = 100, initialValue, isDisabled } = props;
+  const { text, onSlideCallback, min = 0, max = 100, initialValue, isDisabled } = props;
 
   const getSlideValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputNumber = parseInt(event.target.value, 10);
-    onSlide(inputNumber);
+    onSlideCallback(inputNumber);
   };
 
   return (

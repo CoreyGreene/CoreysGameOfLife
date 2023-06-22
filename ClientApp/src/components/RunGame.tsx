@@ -78,17 +78,15 @@ export default function RunGame() {
 
   return (
     <div>
-      <h2>numberof rows</h2>
-
       <SuperAwesomeSlider
         initialValue={numberOfRows}
-        onSlide={setNumberOfRows}
+        onSlideCallback={setNumberOfRows}
         isDisabled={simulationIsRunning}
-        text={'number of columns'}></SuperAwesomeSlider>
+        text={'number of rows'}></SuperAwesomeSlider>
 
       <SuperAwesomeSlider
         initialValue={numberOfColumns}
-        onSlide={setNumberOfColumns}
+        onSlideCallback={setNumberOfColumns}
         isDisabled={simulationIsRunning}
         text={'number of columns'}></SuperAwesomeSlider>
 
