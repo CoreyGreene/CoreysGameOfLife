@@ -23,8 +23,6 @@ export default function Grid(props: GridProps) {
       tempGrid[rowIndex][colIndex] = value;
       updateGrid(tempGrid);
     } else {
-      console.log('we here?');
-      // based on the column and row coming in, we need to generate a shape
       const coordinates = Templates.getGliderGun(rowIndex, colIndex);
 
       for (let i = 0; i < coordinates.length; i++) {
@@ -38,7 +36,7 @@ export default function Grid(props: GridProps) {
 
   const updateGrid = debounce((newGrid: any[][]) => {
     dispatch({ type: 'UPDATE', grid: newGrid });
-  }, 250);
+  }, 200);
 
   const TileMemo = React.memo(Tile);
   const tiles = gridData.map((row: any[], rowIndex: any) =>

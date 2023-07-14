@@ -52,7 +52,7 @@ function Tile(props: TileProps) {
   };
   const [activeState, setActiveState] = useState<boolean>(state);
 
-  //not exactly what I wanted here
+  //not exactly what I wanted here.. just need the tiles red while getting ready to place a tempplate
   const getBackGroundColor = () => {
     if (toggle) {
       return activeState ? onColor : offColor;
