@@ -26,14 +26,28 @@ function Tile(props: TileProps) {
 
   const handleTileClick = () => {
     if (!simulationIsRunning && !toggle) {
-      setActiveState(!activeState);
-      updateTileState(!activeState ? true : false);
+      const newState = !state;
+      setActiveState(newState);
+      updateTileState(newState);
     } else if (!simulationIsRunning && toggle) {
-      //setActiveState(!activeState);
-      updateTileState(!activeState ? true : false);
+      const newState = !state;
+      updateTileState(newState);
     }
   };
 
+  const handleHover = () => {
+    if (toggle) {
+      setActiveState(true);
+    } else {
+      handleTileClick();
+    }
+  };
+
+  const handleLeave = () => {
+    if (toggle) {
+      setActiveState(false);
+    }
+  };
   const [activeState, setActiveState] = useState<boolean>(state);
 
   return (
@@ -43,7 +57,9 @@ function Tile(props: TileProps) {
         width,
         height,
       }}
-      onClick={handleTileClick}></div>
+      onClick={handleTileClick}
+      onMouseOver={handleHover}
+      onMouseLeave={handleLeave}></div>
   );
 }
 
