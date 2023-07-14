@@ -8,23 +8,28 @@ type TileProps = {
   width: number;
   height: number;
   simulationIsRunning: boolean;
+  toggle: boolean;
   updateTileState: (value: boolean) => void;
 };
 
 function Tile(props: TileProps) {
   const {
-    onColor = 'green',
-    offColor = 'black',
+    onColor = 'yellow',
+    offColor = 'grey',
     state = false,
     width,
     height,
     simulationIsRunning,
+    toggle,
     updateTileState,
   } = props;
 
   const handleTileClick = () => {
-    if (!simulationIsRunning) {
+    if (!simulationIsRunning && !toggle) {
       setActiveState(!activeState);
+      updateTileState(!activeState ? true : false);
+    } else if (!simulationIsRunning && toggle) {
+      //setActiveState(!activeState);
       updateTileState(!activeState ? true : false);
     }
   };
@@ -38,7 +43,7 @@ function Tile(props: TileProps) {
         width,
         height,
       }}
-      onMouseOver={handleTileClick}></div>
+      onClick={handleTileClick}></div>
   );
 }
 

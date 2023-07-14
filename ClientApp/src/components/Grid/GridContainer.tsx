@@ -12,7 +12,7 @@ const GridContainer: React.FC<GridContainerProps> = ({ columns, rows, gridTileSi
     display: 'grid',
     gridTemplateColumns: `repeat(${columns}, 1fr)`,
     gridTemplateRows: `repeat(${rows}, 1fr)`,
-    gap: '0px',
+    gap: '1px',
     border: '1px solid black',
     width: `${gridTileSize * gridTileSize + 2}px`,
     height: `${gridTileSize * gridTileSize + 2}px`,

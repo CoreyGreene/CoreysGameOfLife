@@ -17,6 +17,7 @@ export default function RunGame() {
   const row = Array.from({ length: numberOfColumns }, () => false);
   const grid = Array.from({ length: numberOfRows }, () => [...row]);
   const [simulationIsRunning, setSimulationIsRunning] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const [state, dispatch] = useReducer(reducer, { grid });
   useEffect(() => {
     ClearSimulation();
@@ -93,14 +94,19 @@ export default function RunGame() {
       <Button text="Run" onClick={StartSimulation}></Button>
       <Button text="Stop" onClick={StopSimulation}></Button>
       <Button text="Clear" onClick={ClearSimulation}></Button>
-
+      <label className="toggle-switch">
+        Glider Gun
+        <input type="checkbox" checked={toggle} onChange={() => setToggle(!toggle)} />
+        <span className="slider" />
+      </label>
       <Grid
         dispatch={dispatch}
         rows={numberOfRows}
         columns={numberOfColumns}
         gridData={state.grid}
         gridTileSize={TheTilePixelSize}
-        simulationIsRunning={simulationIsRunning}></Grid>
+        simulationIsRunning={simulationIsRunning}
+        toggle={toggle}></Grid>
     </div>
   );
 }
