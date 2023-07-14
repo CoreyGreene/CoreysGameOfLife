@@ -3,6 +3,7 @@ import React, { useState, memo } from 'react';
 type TileProps = {
   onColor?: string;
   offColor?: string;
+  templateColor?: string;
   dispatch: any;
   state?: boolean;
   width: number;
@@ -16,6 +17,7 @@ function Tile(props: TileProps) {
   const {
     onColor = 'yellow',
     offColor = 'grey',
+    templateColor = 'red',
     state = false,
     width,
     height,
@@ -26,12 +28,12 @@ function Tile(props: TileProps) {
 
   const handleTileClick = () => {
     if (!simulationIsRunning && !toggle) {
-      const newState = !state;
-      setActiveState(newState);
-      updateTileState(newState);
+      //const newState = !activeState;
+      setActiveState(!activeState);
+      updateTileState(!activeState);
     } else if (!simulationIsRunning && toggle) {
-      const newState = !state;
-      updateTileState(newState);
+      //const newState = !state;
+      updateTileState(!state);
     }
   };
 
@@ -50,10 +52,19 @@ function Tile(props: TileProps) {
   };
   const [activeState, setActiveState] = useState<boolean>(state);
 
+  //not exactly what I wanted here
+  const getBackGroundColor = () => {
+    if (toggle) {
+      return activeState ? onColor : offColor;
+    } else {
+      return activeState ? onColor : offColor;
+    }
+  };
+
   return (
     <div
       style={{
-        backgroundColor: activeState ? onColor : offColor,
+        backgroundColor: getBackGroundColor(),
         width,
         height,
       }}
